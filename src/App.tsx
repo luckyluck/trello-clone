@@ -1,8 +1,10 @@
 import React from 'react';
 
+import { AppContainer } from "./styles";
+
 function App() {
   return (
-    <div>React App</div>
+    <AppContainer>Columns will go here</AppContainer>
   );
 }
 
