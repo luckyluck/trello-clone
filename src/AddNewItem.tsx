@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { NewItemForm } from './NewItemForm';
+import { AddItemButton } from './styles';
 
 interface AddNewItemProps {
 	onAdd(text: string): void;
@@ -22,8 +23,8 @@ export const AddNewItem: React.FC<AddNewItemProps> = ({ onAdd, toggleButtonText,
 	}
 
 	return (
-		<button onClick={() => setShowForm(true)}>
+		<AddItemButton dark={dark} onClick={() => setShowForm(true)}>
 			{toggleButtonText}
-		</button>
+		</AddItemButton>
 	);
 };
