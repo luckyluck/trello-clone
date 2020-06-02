@@ -11,15 +11,19 @@ interface ColumnProps {
 }
 
 export const Column: React.FC<ColumnProps> = ({ text, index }) => {
-  const { state } = useAppState();
+  const { state, dispatch } = useAppState();
 
   return (
     <ColumnContainer>
       <ColumnTitle>{text}</ColumnTitle>
       {state.lists[index].tasks.map(task => (
-        <Card text={task.text} key={task.id} />
+        <Card text={task.text} key={task.id}/>
       ))}
-      <AddNewItem toggleButtonText={'+ Add another task'} onAdd={console.log} dark={true}/>
+      <AddNewItem
+        toggleButtonText={'+ Add another task'}
+        onAdd={text => dispatch({ type: 'ADD_TASK', payload: { text, taskId: state.lists[index].id } })}
+        dark={true}
+      />
     </ColumnContainer>
   );
 };
