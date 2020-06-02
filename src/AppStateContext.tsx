@@ -1,4 +1,7 @@
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
+import { findItemIndexById } from './utils/findItemIndexById';
 
 interface Task {
   id: string;
@@ -16,8 +19,17 @@ export interface AppState {
 }
 
 interface AppStateContextProps {
-  state: AppState
+  state: AppState;
+  dispatch: React.Dispatch<Action>;
 }
+
+type Action = | {
+  type: 'ADD_LIST',
+  payload: string,
+} | {
+  type: 'ADD_TASK',
+  payload: { text: string; taskId: string };
+};
 
 const appData: AppState = {
   lists: [
@@ -41,10 +53,41 @@ const appData: AppState = {
 
 const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps);
 
-export const AppStateProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => (
-  <AppStateContext.Provider value={{ state: appData }}>
-    {children}
-  </AppStateContext.Provider>
-);
+const appStateReducer = (state: AppState, action: Action): AppState => {
+  switch (action.type) {
+    case 'ADD_LIST': {
+      return {
+        ...state,
+        lists: [
+          ...state.lists,
+          { id: uuidv4(), text: action.payload, tasks: [] }
+        ],
+      };
+    }
+    case 'ADD_TASK': {
+      const targetLaneIndex = findItemIndexById(state.lists, action.payload.taskId);
+      state.lists[targetLaneIndex].tasks.push({
+        id: uuidv4(),
+        text: action.payload.text,
+      });
+
+      return {
+        ...state,
+      };
+    }
+    default:
+      return state;
+  }
+};
+
+export const AppStateProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+  const [state, dispatch] = useReducer(appStateReducer, appData);
+
+  return (
+    <AppStateContext.Provider value={{ state, dispatch }}>
+      {children}
+    </AppStateContext.Provider>
+  );
+};
 
 export const useAppState = () => useContext(AppStateContext);
