@@ -10,4 +10,6 @@ export const useItemDrag = (item: DragItem) => {
     begin: () => dispatch({ type: 'SET_DRAGGED_ITEM', payload: item }),
     end: () => dispatch({ type: 'SET_DRAGGED_ITEM', payload: undefined }),
   });
+
+  return { drag };
 };
