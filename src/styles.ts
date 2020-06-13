@@ -19,7 +19,7 @@ export const AppContainer = styled.div`
 `;
 
 export const DragPreviewContainer = styled.div<DragPreviewContainerProps>`
-    opacity: ${({ isHidden = false }): number => isHidden ? 0.3 : 1};
+    opacity: ${({ isHidden = false }): number => isHidden ? 0 : 1};
 `;
 
 export const ColumnContainer = styled(DragPreviewContainer)`
