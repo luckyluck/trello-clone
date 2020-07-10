@@ -6,6 +6,7 @@ interface AddItemButtonProps {
 
 interface DragPreviewContainerProps {
     isHidden?: boolean;
+    isPreview?: boolean;
 }
 
 export const AppContainer = styled.div`
@@ -19,6 +20,7 @@ export const AppContainer = styled.div`
 `;
 
 export const DragPreviewContainer = styled.div<DragPreviewContainerProps>`
+    transform: ${props => (props.isPreview ? 'rotate(5deg)' : undefined)};
     opacity: ${({ isHidden = false }): number => isHidden ? 0 : 1};
 `;
 

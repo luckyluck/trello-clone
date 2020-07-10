@@ -38,7 +38,7 @@ export const Column: React.FC<ColumnProps> = ({ text, index, id, isPreview }) =>
 	drag(drop(ref));
 
 	return (
-		<ColumnContainer ref={ref} isHidden={isHidden(isPreview, state.draggedItem, 'COLUMN', id)}>
+		<ColumnContainer isPreview={isPreview} ref={ref} isHidden={isHidden(isPreview, state.draggedItem, 'COLUMN', id)}>
 			<ColumnTitle>{text}</ColumnTitle>
 			{state.lists[index].tasks.map(task => (
 				<Card text={task.text} key={task.id}/>
